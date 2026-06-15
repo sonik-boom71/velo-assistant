@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: #0c0e0f;
+  color: #e6e9eb;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* bike-computer numerals */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* strip number-input spinners — keypads only */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+@layer components {
+  .card {
+    @apply bg-asphalt-850 border border-asphalt-800 rounded-md;
+  }
+
+  .label {
+    @apply block text-[11px] uppercase tracking-[0.12em] text-asphalt-400 font-medium font-sans;
+  }
+
+  .field {
+    @apply w-full bg-asphalt-900 border border-asphalt-700 rounded-sm px-3 py-2 text-asphalt-100
+           outline-none transition-colors placeholder:text-asphalt-500
+           focus:border-lime;
+  }
+
+  .field-num {
+    @apply field font-mono tnum;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-sm text-sm font-medium
+           transition-colors select-none disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply btn bg-lime text-asphalt-950 hover:bg-lime-dim;
+  }
+  .btn-ghost {
+    @apply btn bg-asphalt-800 text-asphalt-100 hover:bg-asphalt-700;
+  }
+  .btn-line {
+    @apply btn border border-asphalt-700 text-asphalt-200 hover:border-asphalt-500 hover:text-asphalt-100;
+  }
+  .btn-danger {
+    @apply btn bg-asphalt-800 text-wear-over hover:bg-asphalt-700;
+  }
+  .btn-sm {
+    @apply px-2.5 py-1.5 text-xs;
+  }
+
+  .chip {
+    @apply inline-flex items-center rounded-sm px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.08em];
+  }
+}
