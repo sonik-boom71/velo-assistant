@@ -89,74 +89,86 @@ function MileagePanel({
   };
 
   return (
-    <section className="card p-4">
-      <div className="flex items-start justify-between">
-        <div>
-          <div className="text-[10px] uppercase tracking-[0.14em] text-asphalt-400">
-            Общий пробег
+    <section className="card overflow-hidden">
+      <div className="relative h-48 w-full bg-asphalt-900">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/bike.jpg"
+          alt={name}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-asphalt-950 via-asphalt-950/55 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-4">
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.14em] text-asphalt-200">
+              {name}
+            </div>
+            <div className="font-mono tnum text-4xl leading-none text-white [text-shadow:0_2px_10px_rgba(0,0,0,0.85)]">
+              {fmtKm(total)}
+              <span className="text-lg text-asphalt-200"> км</span>
+            </div>
           </div>
-          <div className="font-mono tnum text-4xl leading-none text-asphalt-100">
-            {fmtKm(total)}
-            <span className="text-lg text-asphalt-500"> км</span>
-          </div>
+          <button
+            onClick={() => {
+              setDraftName(name);
+              setDraftKm(String(total));
+              setEditing((v) => !v);
+            }}
+            className="btn-line btn-sm border-asphalt-500 bg-asphalt-950/40 backdrop-blur"
+          >
+            {editing ? "Закрыть" : "Изменить"}
+          </button>
         </div>
-        <button
-          onClick={() => {
-            setDraftName(name);
-            setDraftKm(String(total));
-            setEditing((v) => !v);
-          }}
-          className="btn-line btn-sm"
-        >
-          {editing ? "Закрыть" : "Изменить"}
-        </button>
       </div>
 
-      {editing ? (
-        <div className="mt-4 space-y-3 border-t border-asphalt-800 pt-3">
-          <div>
-            <label className="label mb-1">Название велосипеда</label>
-            <input
-              className="field"
-              value={draftName}
-              onChange={(e) => setDraftName(e.target.value)}
-            />
+      <div className="p-4">
+
+        {editing ? (
+          <div className="space-y-3">
+            <div>
+              <label className="label mb-1">Название велосипеда</label>
+              <input
+                className="field"
+                value={draftName}
+                onChange={(e) => setDraftName(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="label mb-1">Текущий пробег, км</label>
+              <input
+                type="number"
+                inputMode="numeric"
+                className="field-num"
+                value={draftKm}
+                onChange={(e) => setDraftKm(e.target.value)}
+              />
+            </div>
+            <button
+              onClick={() => {
+                onSet(draftName.trim() || "Мой велосипед", Number(draftKm) || 0);
+                setEditing(false);
+              }}
+              className="btn-primary w-full"
+            >
+              Сохранить
+            </button>
           </div>
-          <div>
-            <label className="label mb-1">Текущий пробег, км</label>
+        ) : (
+          <form onSubmit={submitAdd} className="flex gap-2">
             <input
               type="number"
               inputMode="numeric"
               className="field-num"
-              value={draftKm}
-              onChange={(e) => setDraftKm(e.target.value)}
+              placeholder="+ км за поездку"
+              value={add}
+              onChange={(e) => setAdd(e.target.value)}
             />
-          </div>
-          <button
-            onClick={() => {
-              onSet(draftName.trim() || "Мой велосипед", Number(draftKm) || 0);
-              setEditing(false);
-            }}
-            className="btn-primary w-full"
-          >
-            Сохранить
-          </button>
-        </div>
-      ) : (
-        <form onSubmit={submitAdd} className="mt-4 flex gap-2">
-          <input
-            type="number"
-            inputMode="numeric"
-            className="field-num"
-            placeholder="+ км за поездку"
-            value={add}
-            onChange={(e) => setAdd(e.target.value)}
-          />
-          <button type="submit" className="btn-primary shrink-0">
-            Добавить
-          </button>
-        </form>
-      )}
+            <button type="submit" className="btn-primary shrink-0">
+              Добавить
+            </button>
+          </form>
+        )}
+      </div>
     </section>
   );
 }
